@@ -1,0 +1,17 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor junk
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local dev server pid files, logs
+*.log
+*.pid
+
+# Temporary files
+*.tmp
+*.bak

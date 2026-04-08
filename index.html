@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>McGinnis Family Tree</title>
+<style>
+  :root {
+    --forest: #2C5F2D;
+    --moss: #97BC62;
+    --cream: #F5F5F5;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --card: #ffffff;
+    --border: #d9d9d9;
+    --link: #2C5F2D;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--cream);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  header {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 24px 32px;
+    border-bottom: 4px solid var(--moss);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+  }
+  header .sub {
+    font-size: 13px;
+    opacity: 0.85;
+    margin-top: 4px;
+    font-style: italic;
+  }
+  main {
+    max-width: 780px;
+    margin: 32px auto;
+    padding: 0 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .name {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    color: var(--forest);
+  }
+  .lifespan {
+    color: var(--muted);
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .facts {
+    margin: 0 0 24px 0;
+    padding: 16px 20px;
+    background: #fafaf7;
+    border-left: 3px solid var(--moss);
+    font-size: 15px;
+  }
+  .facts div { margin: 4px 0; }
+  .facts .label {
+    display: inline-block;
+    width: 90px;
+    color: var(--muted);
+    font-variant: small-caps;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  .notes {
+    font-size: 14px;
+    color: #444;
+    font-style: italic;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #ddd;
+  }
+  section.rel {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  section.rel h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin: 0 0 10px 0;
+    font-weight: normal;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  a.person-link {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--moss);
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+  a.person-link:hover {
+    background: var(--forest);
+    color: var(--cream);
+  }
+  a.person-link .role {
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-right: 6px;
+    letter-spacing: 0.5px;
+  }
+  .empty {
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+  }
+  nav.breadcrumb {
+    font-size: 13px;
+    margin-bottom: 16px;
+    color: var(--muted);
+  }
+  nav.breadcrumb a {
+    color: var(--link);
+    text-decoration: none;
+  }
+  nav.breadcrumb a:hover { text-decoration: underline; }
+  .count {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e5e5;
+  }
+  .loading, .error {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px;
+    font-style: italic;
+  }
+  .error { color: #a33; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>McGinnis Family Tree</h1>
+  <div class="sub">A living record — click any name to explore the tree</div>
+</header>
+
+<main>
+  <nav class="breadcrumb"><a href="#jim">← Return to Jim</a></nav>
+  <div id="profile"><div class="loading">Loading tree…</div></div>
+  <div class="count" id="count"></div>
+</main>
+
+<script>
+let TREE = null;
+let byId = {};
+let famById = {};
+
+function fullName(p) {
+  if (!p) return "Unknown";
+  const parts = [p.name.given, p.name.surname];
+  if (p.name.suffix) parts.push(p.name.suffix);
+  return parts.filter(Boolean).join(" ");
+}
+
+function lifespan(p) {
+  const b = p.birth && p.birth.date ? p.birth.date.slice(0,4) : "";
+  const d = p.death && p.death.date ? p.death.date.slice(0,4) : (p.birth ? "Living" : "");
+  if (!b && !d) return "";
+  return `${b || "?"} – ${d || "?"}`;
+}
+
+function formatDate(d) {
+  if (!d) return "";
+  const [y, m, day] = d.split("-");
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  if (m && day) return `${months[parseInt(m)-1]} ${parseInt(day)}, ${y}`;
+  if (m) return `${months[parseInt(m)-1]} ${y}`;
+  return y;
+}
+
+function personLink(id, role) {
+  const p = byId[id];
+  if (!p) return `<span class="empty">Unknown</span>`;
+  const roleTag = role ? `<span class="role">${role}</span>` : "";
+  return `<a class="person-link" href="#${id}">${roleTag}${fullName(p)}</a>`;
+}
+
+function render(id) {
+  const p = byId[id];
+  const el = document.getElementById("profile");
+  if (!p) {
+    el.innerHTML = `<div class="card"><p>Person not found: <code>${id}</code></p></div>`;
+    return;
+  }
+
+  let parentsHtml = `<p class="empty">No parents recorded yet.</p>`;
+  if (p.parents && famById[p.parents]) {
+    const fam = famById[p.parents];
+    const pieces = [];
+    if (fam.husband) pieces.push(personLink(fam.husband, "Father"));
+    if (fam.wife) pieces.push(personLink(fam.wife, "Mother"));
+    if (pieces.length) parentsHtml = `<div class="links">${pieces.join("")}</div>`;
+  }
+
+  let spouseHtml = `<p class="empty">No spouse recorded.</p>`;
+  let childrenHtml = `<p class="empty">No children recorded.</p>`;
+  if (p.spouse_families && p.spouse_families.length) {
+    const spousePieces = [];
+    const childPieces = [];
+    for (const fid of p.spouse_families) {
+      const fam = famById[fid];
+      if (!fam) continue;
+      const spouseId = fam.husband === p.id ? fam.wife : fam.husband;
+      if (spouseId) spousePieces.push(personLink(spouseId, "Spouse"));
+      if (fam.children) {
+        for (const cid of fam.children) childPieces.push(personLink(cid, "Child"));
+      }
+    }
+    if (spousePieces.length) spouseHtml = `<div class="links">${spousePieces.join("")}</div>`;
+    if (childPieces.length) childrenHtml = `<div class="links">${childPieces.join("")}</div>`;
+  }
+
+  const facts = [];
+  if (p.birth && p.birth.date) facts.push(`<div><span class="label">Born</span>${formatDate(p.birth.date)}${p.birth.place ? " in " + p.birth.place : ""}</div>`);
+  else if (p.birth && p.birth.place) facts.push(`<div><span class="label">Born</span>${p.birth.place}</div>`);
+  if (p.death && p.death.date) facts.push(`<div><span class="label">Died</span>${formatDate(p.death.date)}${p.death.place ? " in " + p.death.place : ""}</div>`);
+  if (p.residence) facts.push(`<div><span class="label">Lives</span>${p.residence}</div>`);
+  const factsHtml = facts.length ? `<div class="facts">${facts.join("")}</div>` : "";
+  const notesHtml = p.notes ? `<div class="notes">${p.notes}</div>` : "";
+
+  el.innerHTML = `
+    <div class="card">
+      <h2 class="name">${fullName(p)}</h2>
+      <div class="lifespan">${lifespan(p)}</div>
+      ${factsHtml}
+      ${notesHtml}
+      <section class="rel">
+        <h3>Parents</h3>
+        ${parentsHtml}
+      </section>
+      <section class="rel">
+        <h3>Spouse</h3>
+        ${spouseHtml}
+      </section>
+      <section class="rel">
+        <h3>Children</h3>
+        ${childrenHtml}
+      </section>
+    </div>
+  `;
+
+  window.scrollTo(0, 0);
+}
+
+function routeFromHash() {
+  const id = location.hash.slice(1) || "jim";
+  render(id);
+}
+
+async function init() {
+  try {
+    const res = await fetch("tree.json");
+    if (!res.ok) throw new Error("Failed to load tree.json: " + res.status);
+    TREE = await res.json();
+    byId = Object.fromEntries(TREE.people.map(p => [p.id, p]));
+    famById = Object.fromEntries(TREE.families.map(f => [f.id, f]));
+    document.getElementById("count").textContent =
+      `${TREE.people.length} people · ${TREE.families.length} families`;
+    routeFromHash();
+  } catch (err) {
+    document.getElementById("profile").innerHTML =
+      `<div class="error">Could not load tree.json.<br>${err.message}<br><br>If you're opening this file directly (file://), you need a local server. Try:<br><code>python3 -m http.server</code><br>then visit <code>http://localhost:8000</code></div>`;
+  }
+}
+
+window.addEventListener("hashchange", routeFromHash);
+window.addEventListener("load", init);
+</script>
+
+</body>
+</html>
