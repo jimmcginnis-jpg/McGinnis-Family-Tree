@@ -34,6 +34,18 @@
       "notes": "Swimmer."
     },
     {
+      "id": "ann_kathryn",
+      "name": { "given": "Ann Kathryn", "surname": "McGinnis" },
+      "sex": "F",
+      "parents": "f_charles_shirley"
+    },
+    {
+      "id": "gail_beatrice",
+      "name": { "given": "Gail Beatrice", "surname": "McGinnis" },
+      "sex": "F",
+      "parents": "f_charles_shirley"
+    },
+    {
       "id": "charles_irving",
       "name": { "given": "Charles Irving", "surname": "McGinnis" },
       "sex": "M",
@@ -96,7 +108,7 @@
       "id": "f_charles_shirley",
       "husband": "charles_irving",
       "wife": "shirley_ann",
-      "children": ["jim"]
+      "children": ["ann_kathryn", "gail_beatrice", "jim"]
     },
     {
       "id": "f_paul_sidney",
