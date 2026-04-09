@@ -56,8 +56,14 @@
   .name {
     font-size: 28px;
     font-weight: bold;
-    margin: 0 0 4px 0;
+    margin: 0 0 2px 0;
     color: var(--forest);
+  }
+  .formal {
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 4px;
   }
   .lifespan {
     color: var(--muted);
@@ -66,7 +72,7 @@
     margin-bottom: 20px;
   }
   .facts {
-    margin: 0 0 24px 0;
+    margin: 0 0 20px 0;
     padding: 16px 20px;
     background: #fafaf7;
     border-left: 3px solid var(--moss);
@@ -75,19 +81,25 @@
   .facts div { margin: 4px 0; }
   .facts .label {
     display: inline-block;
-    width: 90px;
+    width: 110px;
     color: var(--muted);
     font-variant: small-caps;
     font-size: 12px;
     letter-spacing: 0.5px;
+    vertical-align: top;
+  }
+  .facts .value {
+    display: inline-block;
+    width: calc(100% - 115px);
   }
   .notes {
     font-size: 14px;
     color: #444;
     font-style: italic;
     margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px dashed #ddd;
+    padding: 12px 16px;
+    background: #fafaf7;
+    border-left: 3px solid #ddd;
   }
   section.rel {
     margin-top: 24px;
@@ -169,7 +181,7 @@
 </header>
 
 <main>
-  <nav class="breadcrumb"><a href="#jim">← Return to Jim</a></nav>
+  <nav class="breadcrumb"><a href="#James_Paul_McGinnis">← Return to Jim</a></nav>
   <div id="profile"><div class="loading">Loading tree…</div></div>
   <div class="count" id="count"></div>
 </main>
@@ -179,16 +191,24 @@ let TREE = null;
 let byId = {};
 let famById = {};
 
-function fullName(p) {
+function formalName(p) {
   if (!p) return "Unknown";
-  const parts = [p.name.given, p.name.surname];
-  if (p.name.suffix) parts.push(p.name.suffix);
+  const parts = [p.given, p.surname];
+  if (p.suffix) parts.push(p.suffix);
   return parts.filter(Boolean).join(" ");
 }
 
+function displayName(p) {
+  if (!p) return "Unknown";
+  if (p.nickname) {
+    return `${p.nickname} ${p.surname}${p.suffix ? " " + p.suffix : ""}`;
+  }
+  return formalName(p);
+}
+
 function lifespan(p) {
-  const b = p.birth && p.birth.date ? p.birth.date.slice(0,4) : "";
-  const d = p.death && p.death.date ? p.death.date.slice(0,4) : (p.birth ? "Living" : "");
+  const b = p.dob ? p.dob.slice(0,4) : "";
+  const d = p.dod ? p.dod.slice(0,4) : (p.dob ? "Living" : "");
   if (!b && !d) return "";
   return `${b || "?"} – ${d || "?"}`;
 }
@@ -206,7 +226,12 @@ function personLink(id, role) {
   const p = byId[id];
   if (!p) return `<span class="empty">Unknown</span>`;
   const roleTag = role ? `<span class="role">${role}</span>` : "";
-  return `<a class="person-link" href="#${id}">${roleTag}${fullName(p)}</a>`;
+  return `<a class="person-link" href="#${id}">${roleTag}${displayName(p)}</a>`;
+}
+
+function fact(label, value) {
+  if (!value) return "";
+  return `<div><span class="label">${label}</span><span class="value">${value}</span></div>`;
 }
 
 function render(id) {
@@ -244,17 +269,40 @@ function render(id) {
     if (childPieces.length) childrenHtml = `<div class="links">${childPieces.join("")}</div>`;
   }
 
-  const facts = [];
-  if (p.birth && p.birth.date) facts.push(`<div><span class="label">Born</span>${formatDate(p.birth.date)}${p.birth.place ? " in " + p.birth.place : ""}</div>`);
-  else if (p.birth && p.birth.place) facts.push(`<div><span class="label">Born</span>${p.birth.place}</div>`);
-  if (p.death && p.death.date) facts.push(`<div><span class="label">Died</span>${formatDate(p.death.date)}${p.death.place ? " in " + p.death.place : ""}</div>`);
-  if (p.residence) facts.push(`<div><span class="label">Lives</span>${p.residence}</div>`);
-  const factsHtml = facts.length ? `<div class="facts">${facts.join("")}</div>` : "";
+  const factParts = [];
+  if (p.dob || p.pob) {
+    const datePart = p.dob ? formatDate(p.dob) : "";
+    const placePart = p.pob ? (datePart ? " in " + p.pob : p.pob) : "";
+    factParts.push(fact("Born", datePart + placePart));
+  }
+  if (p.dod || p.pod) {
+    const datePart = p.dod ? formatDate(p.dod) : "";
+    const placePart = p.pod ? (datePart ? " in " + p.pod : p.pod) : "";
+    factParts.push(fact("Died", datePart + placePart));
+  }
+  if (p.residence) factParts.push(fact("Lives", p.residence));
+  if (p.hs) {
+    const grad = p.hsd ? ` (${p.hsd.slice(0,4)})` : "";
+    factParts.push(fact("High School", p.hs + grad));
+  }
+  if (p.univ) {
+    const grad = p.univd ? ` (${p.univd.slice(0,4)})` : "";
+    factParts.push(fact("University", p.univ + grad));
+  }
+  if (p.occupation) factParts.push(fact("Occupation", p.occupation));
+  if (p.military) factParts.push(fact("Military", p.military));
+
+  const factsHtml = factParts.length ? `<div class="facts">${factParts.join("")}</div>` : "";
   const notesHtml = p.notes ? `<div class="notes">${p.notes}</div>` : "";
+
+  const formalLine = p.nickname
+    ? `<div class="formal">${formalName(p)}</div>`
+    : "";
 
   el.innerHTML = `
     <div class="card">
-      <h2 class="name">${fullName(p)}</h2>
+      <h2 class="name">${displayName(p)}</h2>
+      ${formalLine}
       <div class="lifespan">${lifespan(p)}</div>
       ${factsHtml}
       ${notesHtml}
@@ -277,7 +325,7 @@ function render(id) {
 }
 
 function routeFromHash() {
-  const id = location.hash.slice(1) || "jim";
+  const id = location.hash.slice(1) || "James_Paul_McGinnis";
   render(id);
 }
 
@@ -293,7 +341,7 @@ async function init() {
     routeFromHash();
   } catch (err) {
     document.getElementById("profile").innerHTML =
-      `<div class="error">Could not load tree.json.<br>${err.message}<br><br>If you're opening this file directly (file://), you need a local server. Try:<br><code>python3 -m http.server</code><br>then visit <code>http://localhost:8000</code></div>`;
+      `<div class="error">Could not load tree.json.<br>${err.message}</div>`;
   }
 }
 

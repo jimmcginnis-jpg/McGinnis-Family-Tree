@@ -1,126 +1,175 @@
 {
   "people": [
     {
-      "id": "jim",
-      "name": { "given": "James Paul", "surname": "McGinnis" },
+      "id": "James_Paul_McGinnis",
+      "nickname": "Jim",
+      "given": "James Paul",
+      "surname": "McGinnis",
       "sex": "M",
-      "birth": { "date": "1965-02-21", "place": "Asmara, Eritrea, Ethiopia" },
+      "dob": "1965-02-21",
+      "pob": "Asmara, Eritrea, Ethiopia",
       "residence": "Dallas, Texas, USA",
-      "parents": "f_charles_shirley",
-      "spouse_families": ["f_jim_koren"],
+      "parents": "mcginnis_charles_meyer_shirley",
+      "spouse_families": ["mcginnis_james_sill_koren"],
       "notes": "Mayflower descendant via John Howland."
     },
     {
-      "id": "koren",
-      "name": { "given": "Koren Jean", "surname": "Sill" },
+      "id": "Koren_Jean_Sill",
+      "given": "Koren Jean",
+      "surname": "Sill",
       "sex": "F",
-      "spouse_families": ["f_jim_koren"],
-      "notes": "Founder of Love Mahjong Boutique."
+      "spouse_families": ["mcginnis_james_sill_koren"],
+      "occupation": "Founder, Love Mahjong Boutique"
     },
     {
-      "id": "james_ii",
-      "name": { "given": "James Paul", "surname": "McGinnis", "suffix": "II" },
+      "id": "James_Paul_McGinnis_II",
+      "given": "James Paul",
+      "surname": "McGinnis",
+      "suffix": "II",
       "sex": "M",
-      "birth": { "date": "2009-09-02", "place": "Los Angeles, California, USA" },
-      "parents": "f_jim_koren",
-      "notes": "Sophomore at St. Mark's School of Texas. Swimmer and water polo player."
+      "dob": "2009-09-02",
+      "pob": "Los Angeles, California, USA",
+      "parents": "mcginnis_james_sill_koren",
+      "hs": "St. Mark's School of Texas",
+      "notes": "Swimmer and water polo player."
     },
     {
-      "id": "charlie",
-      "name": { "given": "Charles Spencer", "surname": "McGinnis" },
+      "id": "Charles_Spencer_McGinnis",
+      "nickname": "Charlie",
+      "given": "Charles Spencer",
+      "surname": "McGinnis",
       "sex": "M",
-      "birth": { "date": "2011-09-14", "place": "Dallas, Texas, USA" },
-      "parents": "f_jim_koren",
+      "dob": "2011-09-14",
+      "pob": "Dallas, Texas, USA",
+      "parents": "mcginnis_james_sill_koren",
       "notes": "Swimmer."
     },
     {
-      "id": "ann_kathryn",
-      "name": { "given": "Ann Kathryn", "surname": "McGinnis" },
+      "id": "Ann_Kathryn_McGinnis",
+      "given": "Ann Kathryn",
+      "surname": "McGinnis",
       "sex": "F",
-      "parents": "f_charles_shirley"
+      "parents": "mcginnis_charles_meyer_shirley",
+      "spouse_families": ["hillyer_saunders_mcginnis_ann"]
     },
     {
-      "id": "gail_beatrice",
-      "name": { "given": "Gail Beatrice", "surname": "McGinnis" },
-      "sex": "F",
-      "parents": "f_charles_shirley"
-    },
-    {
-      "id": "charles_irving",
-      "name": { "given": "Charles Irving", "surname": "McGinnis" },
+      "id": "Saunders_Cook_Hillyer",
+      "given": "Saunders Cook",
+      "surname": "Hillyer",
       "sex": "M",
-      "parents": "f_paul_sidney",
-      "spouse_families": ["f_charles_shirley"]
+      "spouse_families": ["hillyer_saunders_mcginnis_ann"]
     },
     {
-      "id": "shirley_ann",
-      "name": { "given": "Shirley Ann", "surname": "Meyer" },
-      "sex": "F",
-      "spouse_families": ["f_charles_shirley"]
-    },
-    {
-      "id": "paul_sherman",
-      "name": { "given": "Paul Sherman", "surname": "McGinnis" },
+      "id": "James_Cook_Hillyer",
+      "given": "James Cook",
+      "surname": "Hillyer",
       "sex": "M",
-      "parents": "f_william_cora",
-      "spouse_families": ["f_paul_sidney"]
+      "parents": "hillyer_saunders_mcginnis_ann"
     },
     {
-      "id": "sidney_bacon",
-      "name": { "given": "Sidney", "surname": "Bacon" },
+      "id": "Kathryn_McGinnis_Hillyer",
+      "given": "Kathryn McGinnis",
+      "surname": "Hillyer",
       "sex": "F",
-      "spouse_families": ["f_paul_sidney"]
+      "parents": "hillyer_saunders_mcginnis_ann"
     },
     {
-      "id": "nancy_ann",
-      "name": { "given": "Nancy Ann", "surname": "McGinnis" },
+      "id": "Gail_Beatrice_McGinnis",
+      "given": "Gail Beatrice",
+      "surname": "McGinnis",
       "sex": "F",
-      "parents": "f_paul_sidney"
+      "parents": "mcginnis_charles_meyer_shirley"
     },
     {
-      "id": "john_franklin",
-      "name": { "given": "John Franklin", "surname": "McGinnis" },
+      "id": "Charles_Irving_McGinnis",
+      "given": "Charles Irving",
+      "surname": "McGinnis",
       "sex": "M",
-      "parents": "f_paul_sidney"
+      "parents": "mcginnis_paul_bacon_sidney",
+      "spouse_families": ["mcginnis_charles_meyer_shirley"]
     },
     {
-      "id": "william_erasmus",
-      "name": { "given": "William Erasmus", "surname": "McGinnis" },
+      "id": "Shirley_Ann_Meyer",
+      "given": "Shirley Ann",
+      "surname": "Meyer",
+      "sex": "F",
+      "spouse_families": ["mcginnis_charles_meyer_shirley"]
+    },
+    {
+      "id": "Paul_Sherman_McGinnis",
+      "given": "Paul Sherman",
+      "surname": "McGinnis",
       "sex": "M",
-      "spouse_families": ["f_william_cora"],
+      "parents": "mcginnis_william_english_cora",
+      "spouse_families": ["mcginnis_paul_bacon_sidney"]
+    },
+    {
+      "id": "Sidney_Bacon",
+      "given": "Sidney",
+      "surname": "Bacon",
+      "sex": "F",
+      "spouse_families": ["mcginnis_paul_bacon_sidney"]
+    },
+    {
+      "id": "Nancy_Ann_McGinnis",
+      "given": "Nancy Ann",
+      "surname": "McGinnis",
+      "sex": "F",
+      "parents": "mcginnis_paul_bacon_sidney"
+    },
+    {
+      "id": "John_Franklin_McGinnis",
+      "given": "John Franklin",
+      "surname": "McGinnis",
+      "sex": "M",
+      "parents": "mcginnis_paul_bacon_sidney"
+    },
+    {
+      "id": "William_Erasmus_McGinnis",
+      "given": "William Erasmus",
+      "surname": "McGinnis",
+      "sex": "M",
+      "spouse_families": ["mcginnis_william_english_cora"],
       "notes": "Patriarch of the McGinnis Clan fan chart (July 2024). Five children with Cora Pauline English."
     },
     {
-      "id": "cora_pauline",
-      "name": { "given": "Cora Pauline", "surname": "English" },
+      "id": "Cora_Pauline_English",
+      "given": "Cora Pauline",
+      "surname": "English",
       "sex": "F",
-      "spouse_families": ["f_william_cora"]
+      "spouse_families": ["mcginnis_william_english_cora"]
     }
   ],
   "families": [
     {
-      "id": "f_jim_koren",
-      "husband": "jim",
-      "wife": "koren",
-      "children": ["james_ii", "charlie"]
+      "id": "mcginnis_james_sill_koren",
+      "husband": "James_Paul_McGinnis",
+      "wife": "Koren_Jean_Sill",
+      "children": ["James_Paul_McGinnis_II", "Charles_Spencer_McGinnis"]
     },
     {
-      "id": "f_charles_shirley",
-      "husband": "charles_irving",
-      "wife": "shirley_ann",
-      "children": ["ann_kathryn", "gail_beatrice", "jim"]
+      "id": "mcginnis_charles_meyer_shirley",
+      "husband": "Charles_Irving_McGinnis",
+      "wife": "Shirley_Ann_Meyer",
+      "children": ["Ann_Kathryn_McGinnis", "Gail_Beatrice_McGinnis", "James_Paul_McGinnis"]
     },
     {
-      "id": "f_paul_sidney",
-      "husband": "paul_sherman",
-      "wife": "sidney_bacon",
-      "children": ["nancy_ann", "john_franklin", "charles_irving"]
+      "id": "hillyer_saunders_mcginnis_ann",
+      "husband": "Saunders_Cook_Hillyer",
+      "wife": "Ann_Kathryn_McGinnis",
+      "children": ["James_Cook_Hillyer", "Kathryn_McGinnis_Hillyer"]
     },
     {
-      "id": "f_william_cora",
-      "husband": "william_erasmus",
-      "wife": "cora_pauline",
-      "children": ["paul_sherman"]
+      "id": "mcginnis_paul_bacon_sidney",
+      "husband": "Paul_Sherman_McGinnis",
+      "wife": "Sidney_Bacon",
+      "children": ["Nancy_Ann_McGinnis", "John_Franklin_McGinnis", "Charles_Irving_McGinnis"]
+    },
+    {
+      "id": "mcginnis_william_english_cora",
+      "husband": "William_Erasmus_McGinnis",
+      "wife": "Cora_Pauline_English",
+      "children": ["Paul_Sherman_McGinnis"]
     }
   ]
 }
