@@ -78,7 +78,43 @@
       "given": "Gail Beatrice",
       "surname": "McGinnis",
       "sex": "F",
-      "parents": "mcginnis_charles_meyer_shirley"
+      "parents": "mcginnis_charles_meyer_shirley",
+      "spouse_families": ["barker_gary_mcginnis_gail"]
+    },
+    {
+      "id": "Gary_Joseph_Barker",
+      "given": "Gary Joseph",
+      "surname": "Barker",
+      "sex": "M",
+      "spouse_families": ["barker_gary_mcginnis_gail"]
+    },
+    {
+      "id": "Joshua_Brendan_Barker",
+      "given": "Joshua Brendan",
+      "surname": "Barker",
+      "sex": "M",
+      "parents": "barker_gary_mcginnis_gail"
+    },
+    {
+      "id": "Nathaniel_Aidan_Barker",
+      "given": "Nathaniel Aidan",
+      "surname": "Barker",
+      "sex": "M",
+      "parents": "barker_gary_mcginnis_gail"
+    },
+    {
+      "id": "Luke_Patrick_Barker",
+      "given": "Luke Patrick",
+      "surname": "Barker",
+      "sex": "M",
+      "parents": "barker_gary_mcginnis_gail"
+    },
+    {
+      "id": "Zachary_Alban_Barker",
+      "given": "Zachary Alban",
+      "surname": "Barker",
+      "sex": "M",
+      "parents": "barker_gary_mcginnis_gail"
     },
     {
       "id": "Charles_Irving_McGinnis",
@@ -158,6 +194,12 @@
       "husband": "Saunders_Cook_Hillyer",
       "wife": "Ann_Kathryn_McGinnis",
       "children": ["James_Cook_Hillyer", "Kathryn_McGinnis_Hillyer"]
+    },
+    {
+      "id": "barker_gary_mcginnis_gail",
+      "husband": "Gary_Joseph_Barker",
+      "wife": "Gail_Beatrice_McGinnis",
+      "children": ["Joshua_Brendan_Barker", "Nathaniel_Aidan_Barker", "Luke_Patrick_Barker", "Zachary_Alban_Barker"]
     },
     {
       "id": "mcginnis_paul_bacon_sidney",
