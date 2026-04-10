@@ -230,6 +230,16 @@ function render(id) {
     const placePart = p.pod ? (datePart ? " in " + p.pod : p.pod) : "";
     factParts.push(fact("Died", datePart + placePart));
   }
+  if (p.bur) factParts.push(fact("Buried", p.bur));
+  // Marriage info pulled from the family record (first marriage only for now)
+  if (p.spouse_families && p.spouse_families.length) {
+    const firstFam = famById[p.spouse_families[0]];
+    if (firstFam && (firstFam.mdate || firstFam.mplace)) {
+      const datePart = firstFam.mdate ? formatDate(firstFam.mdate) : "";
+      const placePart = firstFam.mplace ? (datePart ? " in " + firstFam.mplace : firstFam.mplace) : "";
+      factParts.push(fact("Married", datePart + placePart));
+    }
+  }
   if (p.residence) factParts.push(fact("Lives", p.residence));
   if (p.hs) factParts.push(fact("High School", p.hs + (p.hsd ? ` (${p.hsd.slice(0,4)})` : "")));
   if (p.univ) factParts.push(fact("University", p.univ + (p.univd ? ` (${p.univd.slice(0,4)})` : "")));
