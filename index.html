@@ -237,7 +237,7 @@ function render(id) {
   if (p.military) factParts.push(fact("Military", p.military));
   const factsHtml = factParts.length ? `<div class="facts">${factParts.join("")}</div>` : "";
 
-  const storyHtml = p.notes ? `<div class="story"><p>${p.notes}</p></div>` : "";
+  const storyHtml = p.notes ? `<div class="story">${p.notes.split(/\n\n+/).map(para => `<p>${para}</p>`).join("")}</div>` : "";
   const formalLine = p.nickname ? `<div class="formal">${formalName(p)}</div>` : "";
 
   el.innerHTML = `
